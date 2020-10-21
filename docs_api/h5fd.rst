@@ -30,6 +30,7 @@ File drivers types
 
 .. data:: CORE
 .. data:: FAMILY
+.. data:: GDS
 .. data:: LOG
 .. data:: MPIO
 .. data:: MULTI

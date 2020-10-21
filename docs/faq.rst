@@ -74,6 +74,7 @@ Driver                              Purpose                                     
 =================================== =========================================== ============================
 sec2                                Standard optimized driver                   Default on UNIX/Windows
 stdio                               Buffered I/O using stdio.h
+gds                                 GPUDirect Storage driver
 core                                In-memory file (optionally backed to disk)
 family                              Multi-file driver
 mpio                                Parallel HDF5 file access

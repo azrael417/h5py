@@ -1051,6 +1051,13 @@ cdef class PropFAID(PropInstanceID):
         """
         H5Pset_fapl_sec2(self.id)
 
+    @with_phil
+    def set_fapl_gds(self, size_t alignment=4096, size_t block_size=4096, size_t cbuf_size=16*1024*1024):
+        """()
+
+        Select the "GPUDirect-Storage" driver (h5fd.GDS).
+        """
+        H5Pset_fapl_gds(self.id, alignment, block_size, cbuf_size)
 
     @with_phil
     def set_fapl_stdio(self):
@@ -1099,6 +1106,7 @@ cdef class PropFAID(PropInstanceID):
 
         - h5fd.CORE
         - h5fd.FAMILY
+	- h5fd.GDS
         - h5fd.LOG
         - h5fd.MPIO
         - h5fd.MULTI

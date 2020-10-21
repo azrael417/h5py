@@ -57,6 +57,7 @@ def _set_fapl_fileobj(plist, **kwargs):
 
 _drivers = {
     'sec2': lambda plist, **kwargs: plist.set_fapl_sec2(**kwargs),
+    'gds': lambda plist, **kwargs: plist.set_fapl_gds(**kwargs),
     'stdio': lambda plist, **kwargs: plist.set_fapl_stdio(**kwargs),
     'core': lambda plist, **kwargs: plist.set_fapl_core(**kwargs),
     'family': lambda plist, **kwargs: plist.set_fapl_family(
@@ -246,6 +247,7 @@ class File(Group):
                    h5fd.STDIO: 'stdio',
                    h5fd.CORE: 'core',
                    h5fd.FAMILY: 'family',
+                   h5fd.GDS: 'GDS',
                    h5fd.WINDOWS: 'windows',
                    h5fd.MPIO: 'mpio',
                    h5fd.MPIPOSIX: 'mpiposix',
@@ -329,7 +331,7 @@ class File(Group):
             a        Read/write if exists, create otherwise
         driver
             Name of the driver to use.  Legal values are None (default,
-            recommended), 'core', 'sec2', 'stdio', 'mpio'.
+            recommended), 'core', 'sec2', 'gds', 'stdio', 'mpio'.
         libver
             Library version bounds.  Supported values: 'earliest', 'v108',
             'v110', 'v112'  and 'latest'. The 'v108', 'v110' and 'v112'
