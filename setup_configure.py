@@ -82,7 +82,7 @@ class BuildConfig:
             self.msmpi_inc_dirs = []
             self.msmpi_lib_dirs = []
 
-        if os.environ.get('H5PY_GDS_VFD') == 'ON':
+        if (os.environ.get('H5PY_GDS_VFD') == 'ON') or (os.environ.get('H5PY_GDS_VFD') == '1'):
             self.gds_vfd_inc_dirs = [os.environ.get("HDF5_GDS_VFD_INCLUDE_DIR")]
             self.gds_vfd_lib_dirs = [os.environ.get("HDF5_GDS_VFD_LIBRARY_DIR")]
         else:
