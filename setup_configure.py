@@ -66,7 +66,7 @@ class BuildConfig:
         self.ros3 = ros3
         self.direct_vfd = direct_vfd
         self.gds_vfd = gds_vfd
-
+        
         if self.mpi and os.environ.get('H5PY_MSMPI') == 'ON':
             self.msmpi = True
             self.msmpi_inc_dirs = os.environ.get('MSMPI_INC').split(';')
@@ -81,6 +81,13 @@ class BuildConfig:
             self.msmpi = False
             self.msmpi_inc_dirs = []
             self.msmpi_lib_dirs = []
+
+        if os.environ.get('H5PY_GDS_VFD') == 'ON':
+            self.gds_inc_dirs = [os.environ.get("HDF5_GDS_VFD_INCLUDE_DIR")]
+            self.gds_lib_dirs = [os.environ.get("HDF5_GDS_VFD_LIBRARY_DIR")]
+        else:
+            self.gds_inc_dirs = []
+            self.gds_lib_dirs =	[]
 
     @classmethod
     def from_env(cls):
@@ -200,6 +207,8 @@ class BuildConfig:
             'ros3': self.ros3,
             'direct_vfd': self.direct_vfd,
             'gds_vfd': self.gds_vfd,
+            'gds_vfd_inc_dirs': self.gds_inc_dirs,
+            'gds_vfd_lib_dirs': self.gds_lib_dirs,
             'msmpi': self.msmpi,
             'msmpi_inc_dirs': self.msmpi_inc_dirs,
             'msmpi_lib_dirs': self.msmpi_lib_dirs,
@@ -227,6 +236,8 @@ class BuildConfig:
         print("   ROS3 VFD Enabled:", self.ros3)
         print(" DIRECT VFD Enabled:", self.direct_vfd)
         print(" GDS VFD Enabled:", self.gds_vfd)
+        print("GDS VFD include dirs:", self.gds_vfd_inc_dirs)
+        print("GDS VFD library dirs:", self.gds_vfd_lib_dirs)
         print("   Rebuild Required:", self.changed())
         print("     MS-MPI Enabled:", self.msmpi)
         print("MS-MPI include dirs:", self.msmpi_inc_dirs)

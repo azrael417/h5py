@@ -33,7 +33,7 @@ MODULES = ['defs', '_errors', '_objects', '_proxy', 'h5fd', 'h5z',
             'h5pl']
 
 COMPILER_SETTINGS = {
-   'libraries'      : ['hdf5', 'hdf5_hl', 'hdf5_vfd_gds'],
+   'libraries'      : ['hdf5', 'hdf5_hl'],
    'include_dirs'   : [localpath('lzf')],
    'library_dirs'   : [],
    'define_macros'  : [('H5_USE_110_API', None),
@@ -98,6 +98,11 @@ class h5py_build_ext(build_ext):
             settings['include_dirs'].extend(config.msmpi_inc_dirs)
             settings['library_dirs'].extend(config.msmpi_lib_dirs)
             settings['libraries'].append('msmpi')
+
+        if config.gds_vfd:
+            settings['include_dirs'].extend(config.gds_vfd_inc_dirs)
+            settings['library_dirs'].extend(config.gds_vfd_lib_dirs)
+            settings['libraries'].append('hdf5_vfd_gds')
 
         try:
             numpy_includes = numpy.get_include()
