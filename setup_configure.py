@@ -83,11 +83,11 @@ class BuildConfig:
             self.msmpi_lib_dirs = []
 
         if os.environ.get('H5PY_GDS_VFD') == 'ON':
-            self.gds_inc_dirs = [os.environ.get("HDF5_GDS_VFD_INCLUDE_DIR")]
-            self.gds_lib_dirs = [os.environ.get("HDF5_GDS_VFD_LIBRARY_DIR")]
+            self.gds_vfd_inc_dirs = [os.environ.get("HDF5_GDS_VFD_INCLUDE_DIR")]
+            self.gds_vfd_lib_dirs = [os.environ.get("HDF5_GDS_VFD_LIBRARY_DIR")]
         else:
-            self.gds_inc_dirs = []
-            self.gds_lib_dirs =	[]
+            self.gds_vfd_inc_dirs = []
+            self.gds_vfd_lib_dirs =	[]
 
     @classmethod
     def from_env(cls):
@@ -207,8 +207,8 @@ class BuildConfig:
             'ros3': self.ros3,
             'direct_vfd': self.direct_vfd,
             'gds_vfd': self.gds_vfd,
-            'gds_vfd_inc_dirs': self.gds_inc_dirs,
-            'gds_vfd_lib_dirs': self.gds_lib_dirs,
+            'gds_vfd_inc_dirs': self.gds_vfd_inc_dirs,
+            'gds_vfd_lib_dirs': self.gds_vfd_lib_dirs,
             'msmpi': self.msmpi,
             'msmpi_inc_dirs': self.msmpi_inc_dirs,
             'msmpi_lib_dirs': self.msmpi_lib_dirs,
