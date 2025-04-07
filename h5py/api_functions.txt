@@ -309,7 +309,7 @@ hdf5:
   ROS3 1.14.2 herr_t H5Pset_fapl_ros3_token(hid_t fapl_id, const char *token)
   DIRECT_VFD herr_t H5Pget_fapl_direct(hid_t fapl_id, size_t *boundary, size_t *block_size, size_t *cbuf_size)
   DIRECT_VFD herr_t H5Pset_fapl_direct(hid_t fapl_id, size_t alignment, size_t block_size, size_t cbuf_size)
-  GDS_VFD herr_t H5Pset_fapl_gds(hid_t fapl_id, size_t *boundary, size_t *block_size, size_t *cbuf_size)
+  GDS_VFD herr_t H5Pget_fapl_gds(hid_t fapl_id, size_t *boundary, size_t *block_size, size_t *cbuf_size)
   GDS_VFD herr_t H5Pset_fapl_gds(hid_t fapl_id, size_t alignment, size_t block_size, size_t cbuf_size)
   herr_t    H5Pset_fapl_log(hid_t fapl_id, char *logfile, unsigned int flags, size_t buf_size)
   herr_t    H5Pset_fapl_multi(hid_t fapl_id, H5FD_mem_t *memb_map, hid_t *memb_fapl, const char * const *memb_name, haddr_t *memb_addr, hbool_t relax)
