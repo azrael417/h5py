@@ -162,6 +162,7 @@ DEF MPI = {bool(config.mpi)}
 DEF ROS3 = {bool(config.ros3)}
 DEF HDF5_VERSION = {config.hdf5_version}
 DEF DIRECT_VFD = {bool(config.direct_vfd)}
+DEF GDS_VFD = {bool(config.gds_vfd)} 
 DEF VOL_MIN_HDF5_VERSION = (1,11,5)
 DEF COMPLEX256_SUPPORT = {complex256_support}
 DEF NUMPY_BUILD_VERSION = '{numpy.__version__}'

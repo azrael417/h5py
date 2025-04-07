@@ -26,6 +26,7 @@ from .. import version
 mpi = h5.get_config().mpi
 ros3 = h5.get_config().ros3
 direct_vfd = h5.get_config().direct_vfd
+gds_vfd = h5.get_config().gds_vfd
 hdf5_version = version.hdf5_version_tuple[0:3]
 
 swmr_support = True
@@ -77,6 +78,9 @@ if ros3:
 
 if direct_vfd:
     _drivers['direct'] = lambda plist, **kwargs: plist.set_fapl_direct(**kwargs)  # noqa
+
+if gds_vfd:
+    _drivers['gds'] = lambda plist, **kwargs: plist.set_fapl_gds(**kwargs)  # noqa
 
 
 def register_driver(name, set_fapl):
@@ -252,6 +256,7 @@ def make_fid(name, mode, userblock_size, fapl, fcpl=None, swmr=False):
         except FileNotFoundError if fapl.get_driver() in (
             h5fd.SEC2,
             h5fd.DIRECT if direct_vfd else -1,
+            h5fd.GDS if gds_vfd else -1
             # h5fd.STDIO,
             # h5fd.CORE,
             h5fd.FAMILY,
@@ -314,6 +319,8 @@ class File(Group):
             drivers[h5fd.ROS3D] = 'ros3'
         if direct_vfd:
             drivers[h5fd.DIRECT] = 'direct'
+        if gds_vfd:
+            drivers[h5fd.GDS] = 'gds'
         return drivers.get(self.id.get_access_plist().get_driver(), 'unknown')
 
     @property
@@ -397,7 +404,7 @@ class File(Group):
             a        Read/write if exists, create otherwise
         driver
             Name of the driver to use.  Legal values are None (default,
-            recommended), 'core', 'sec2', 'direct', 'stdio', 'mpio', 'ros3'.
+            recommended), 'core', 'sec2', 'direct', 'gds', 'stdio', 'mpio', 'ros3'.
         libver
             Library version bounds.  Supported values: 'earliest', 'v108',
             'v110', 'v112'  and 'latest'.
