@@ -145,6 +145,11 @@ cdef class H5PYConfig:
         return DIRECT_VFD
 
     @property
+    def gds_vfd(self):
+    	""" Boolean indicating if GDS VFD is available """
+	return GDS_VFD
+
+    @property
     def swmr_min_hdf5_version(self):
         """ Tuple indicating the minimum HDF5 version required for SWMR features"""
         warn(
