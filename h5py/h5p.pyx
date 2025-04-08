@@ -1195,7 +1195,7 @@ cdef class PropFAID(PropInstanceID):
             H5Pget_fapl_direct(self.id, &alignment, &block_size, &cbuf_size)
             return alignment, block_size, cbuf_size
 
-    if DIRECT_VFD:
+    if GDS_VFD:
         @with_phil
         def set_fapl_gds(self, size_t alignment=0, size_t block_size=0, size_t cbuf_size=0):
             """(size_t alignment, size_t block_size, size_t cbuf_size)
@@ -1217,7 +1217,7 @@ cdef class PropFAID(PropInstanceID):
         def get_fapl_gds(self):
             """ () => (alignment, block_size, cbuf_size)
 
-            Retrieve the DIRECT VFD config
+            Retrieve the GDS VFD config
             """
             cdef size_t alignment
             cdef size_t block_size
@@ -1279,6 +1279,7 @@ cdef class PropFAID(PropInstanceID):
         - h5fd.MULTI
         - h5fd.SEC2
         - h5fd.DIRECT  (if available)
+	- h5fd.GDS     (if available)
         - h5fd.STDIO
         - h5fd.ROS3    (if available)
         """

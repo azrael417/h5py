@@ -185,6 +185,7 @@ cdef extern from "hdf5.h":
   hid_t H5FD_MULTI
   hid_t H5FD_SEC2
   hid_t H5FD_DIRECT
+  hid_t H5FD_GDS
   hid_t H5FD_STDIO
   IF UNAME_SYSNAME == "Windows":
     hid_t H5FD_WINDOWS
@@ -245,6 +246,7 @@ cdef extern from "hdf5.h":
     H5FD_class_value_t H5_VFD_SUBFILING    # 12
     H5FD_class_value_t H5_VFD_IOC          # 13
     H5FD_class_value_t H5_VFD_ONION        # 14
+    H5FD_class_value_t H5_VFD_GDS          # 15
 
   # Class information for each file driver
   IF HDF5_VERSION < (1, 14, 0):
