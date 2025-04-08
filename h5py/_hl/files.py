@@ -256,7 +256,7 @@ def make_fid(name, mode, userblock_size, fapl, fcpl=None, swmr=False):
         except FileNotFoundError if fapl.get_driver() in (
             h5fd.SEC2,
             h5fd.DIRECT if direct_vfd else -1,
-            h5fd.GDS if gds_vfd else -1
+            h5fd.GDS if gds_vfd else -1,
             # h5fd.STDIO,
             # h5fd.CORE,
             h5fd.FAMILY,
