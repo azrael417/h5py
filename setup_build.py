@@ -160,6 +160,7 @@ class h5py_build_ext(build_ext):
 
 DEF MPI = {bool(config.mpi)}
 DEF ROS3 = {bool(config.ros3)}
+DEF GDS = {bool(config.gds)}
 DEF HDF5_VERSION = {config.hdf5_version}
 DEF DIRECT_VFD = {bool(config.direct_vfd)}
 DEF VOL_MIN_HDF5_VERSION = (1,11,5)

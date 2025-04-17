@@ -57,13 +57,14 @@ def mpi_enabled():
 
 class BuildConfig:
     def __init__(self, hdf5_includedirs, hdf5_libdirs, hdf5_define_macros,
-                 hdf5_version, mpi, ros3, direct_vfd):
+                 hdf5_version, mpi, ros3, gds, direct_vfd):
         self.hdf5_includedirs = hdf5_includedirs
         self.hdf5_libdirs = hdf5_libdirs
         self.hdf5_define_macros = hdf5_define_macros
         self.hdf5_version = hdf5_version
         self.mpi = mpi
         self.ros3 = ros3
+        self.gds = gds
         self.direct_vfd = direct_vfd
 
         if self.mpi and os.environ.get('H5PY_MSMPI') == 'ON':
@@ -88,13 +89,14 @@ class BuildConfig:
 
         h5_version_s = os.environ.get('HDF5_VERSION')
         h5py_ros3 = os.environ.get('H5PY_ROS3')
+        h5py_gds = os.environ.get('H5PY_GDS')
         h5py_direct_vfd = os.environ.get('H5PY_DIRECT_VFD')
 
-        if h5_version_s and not mpi and h5py_ros3 and h5py_direct_vfd:
+        if h5_version_s and not mpi and h5py_ros3 and h5py_gds and h5py_direct_vfd:
             # if we know config, don't use wrapper, it may not be supported
             return cls(
                 h5_inc, h5_lib, h5_macros, validate_version(h5_version_s), mpi,
-                h5py_ros3 == '1', h5py_direct_vfd == '1')
+                h5py_ros3 == '1', h5py_gds == '1', h5py_direct_vfd == '1')
 
         h5_wrapper = HDF5LibWrapper(h5_lib)
         if h5_version_s:
@@ -109,12 +111,17 @@ class BuildConfig:
         else:
             ros3 = h5_wrapper.has_ros3_support()
 
+        if h5py_gds:
+            gds = h5py_gds == '1'
+        else:
+            gds = h5_wrapper.has_gds_support()
+
         if h5py_direct_vfd:
             direct_vfd = h5py_direct_vfd == '1'
         else:
             direct_vfd = h5_wrapper.has_direct_vfd_support()
 
-        return cls(h5_inc, h5_lib, h5_macros, h5_version, mpi, ros3, direct_vfd)
+        return cls(h5_inc, h5_lib, h5_macros, h5_version, mpi, ros3, gds, direct_vfd)
 
     @staticmethod
     def _find_hdf5_compiler_settings(mpi=False):
@@ -191,6 +198,7 @@ class BuildConfig:
             'hdf5_version': list(self.hdf5_version),  # list() to match the JSON
             'mpi': self.mpi,
             'ros3': self.ros3,
+            'gds': self.gds,
             'direct_vfd': self.direct_vfd,
             'msmpi': self.msmpi,
             'msmpi_inc_dirs': self.msmpi_inc_dirs,
@@ -217,6 +225,7 @@ class BuildConfig:
         print("       HDF5 Version:", repr(self.hdf5_version))
         print("        MPI Enabled:", self.mpi)
         print("   ROS3 VFD Enabled:", self.ros3)
+        print("    GDS VFD Enabled:", self.gds)
         print(" DIRECT VFD Enabled:", self.direct_vfd)
         print("   Rebuild Required:", self.changed())
         print("     MS-MPI Enabled:", self.msmpi)
@@ -334,6 +343,9 @@ class HDF5LibWrapper:
 
     def has_ros3_support(self):
         return self.has_functions("H5Pget_fapl_ros3", "H5Pset_fapl_ros3")
+
+    def has_gds_support(self):
+        return self.has_functions("H5Pget_fapl_gds", "H5Pset_fapl_gds")
 
     def has_direct_vfd_support(self):
         return self.has_functions("H5Pget_fapl_direct", "H5Pset_fapl_direct")

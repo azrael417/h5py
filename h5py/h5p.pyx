@@ -1146,6 +1146,38 @@ cdef class PropFAID(PropInstanceID):
                 H5Pset_fapl_ros3_token(self.id, token)
 
 
+    if GDS:
+        @with_phil
+        def set_fapl_gds(self, size_t alignment=0, size_t block_size=0, size_t cbuf_size=0):
+            """(size_t alignment, size_t block_size, size_t cbuf_size)
+
+            Select the "gds" driver (h5fd.GDS).
+
+            Parameters:
+                hid_t fapl_id       IN: File access property list identifier
+                size_t alignment    IN: Required memory alignment boundary
+                size_t block_size   IN: File system block size
+                size_t cbuf_size    IN: Copy buffer size
+
+            Properties with value of 0 indicate that the HDF5 library should
+            choose the value.
+            """
+            H5Pset_fapl_gds(self.id, alignment, block_size, cbuf_size)
+
+        @with_phil
+        def get_fapl_gds(self):
+            """ () => (alignment, block_size, cbuf_size)
+
+            Retrieve the GDS VFD config
+            """
+            cdef size_t alignment
+            cdef size_t block_size
+            cdef size_t cbuf_size
+
+            H5Pget_fapl_gds(self.id, &alignment, &block_size, &cbuf_size)
+            return alignment, block_size, cbuf_size
+
+
     @with_phil
     def set_fapl_log(self, char* logfile, unsigned int flags, size_t buf_size):
         """(STRING logfile, UINT flags, UINT buf_size)
@@ -1250,6 +1282,7 @@ cdef class PropFAID(PropInstanceID):
         - h5fd.DIRECT  (if available)
         - h5fd.STDIO
         - h5fd.ROS3    (if available)
+        - h5fd.GDS     (if available)
         """
         return H5Pget_driver(self.id)
 

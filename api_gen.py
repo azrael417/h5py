@@ -56,6 +56,7 @@ class Line:
                     acquire the GIL (e.g. using 'with gil' in Cython).
         mpi:        Bool indicating if MPI required
         ros3:       Bool indicating if ROS3 required
+        gds:        Bool indicating if GDS required
         direct_vfd: Bool indicating if DIRECT_VFD required
         version:    None or a minimum-version tuple
         code:       String with function return type
@@ -68,6 +69,7 @@ class Line:
         .nogil:     ""
         .mpi:       True
         .ros3:      False
+        .gds:       False
         .direct_vfd: False
         .version:   (1, 12, 2)
         .code:      "int"
@@ -78,6 +80,7 @@ class Line:
 
     PATTERN = re.compile("""(?P<mpi>(MPI)[ ]+)?
                             (?P<ros3>(ROS3)[ ]+)?
+                            (?P<gds>(GDS)[ ]+)?
                             (?P<direct_vfd>(DIRECT_VFD)[ ]+)?
                             (?P<min_version>([0-9]+\.[0-9]+\.[0-9]+))?
                             (-(?P<max_version>([0-9]+\.[0-9]+\.[0-9]+)))?
@@ -110,6 +113,7 @@ class Line:
         self.nogil = "nogil" if parts['nogil'] else ""
         self.mpi = parts['mpi'] is not None
         self.ros3 = parts['ros3'] is not None
+        self.gds = parts['gds'] is not None
         self.direct_vfd = parts['direct_vfd'] is not None
         self.min_version = parts['min_version']
         if self.min_version is not None:
@@ -241,6 +245,7 @@ class LineProcessor:
         if (
             (self.line.mpi and not self.config.mpi)
             or (self.line.ros3 and not self.config.ros3)
+            or (self.line.gds and not self.config.gds)
             or (self.line.direct_vfd and not self.config.direct_vfd)
             or (self.line.min_version is not None and self.config.hdf5_version < self.line.min_version)
             or (self.line.max_version is not None and self.config.hdf5_version > self.line.max_version)

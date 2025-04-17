@@ -140,6 +140,11 @@ cdef class H5PYConfig:
         return ROS3
 
     @property
+    def gds(self):
+        """ Boolean indicating if GDS VDS is available """
+        return GDS
+
+    @property
     def direct_vfd(self):
         """ Boolean indicating if DIRECT VFD is available """
         return DIRECT_VFD

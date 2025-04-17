@@ -25,6 +25,7 @@ from .. import version
 
 mpi = h5.get_config().mpi
 ros3 = h5.get_config().ros3
+gds = h5.get_config().gds
 direct_vfd = h5.get_config().direct_vfd
 hdf5_version = version.hdf5_version_tuple[0:3]
 
@@ -74,6 +75,9 @@ _drivers = {
 
 if ros3:
     _drivers['ros3'] = lambda plist, **kwargs: plist.set_fapl_ros3(**kwargs)
+
+if gds:
+    _drivers['gds'] = lambda plist, **kwargs: plist.set_fapl_gds(**kwargs)
 
 if direct_vfd:
     _drivers['direct'] = lambda plist, **kwargs: plist.set_fapl_direct(**kwargs)  # noqa
@@ -260,6 +264,7 @@ def make_fid(name, mode, userblock_size, fapl, fcpl=None, swmr=False):
             # h5fd.MPIPOSIX,
             h5fd.fileobj_driver,
             h5fd.ROS3D if ros3 else -1,
+            h5fd.GDSD if gds else -1,
         ) else OSError:
             fid = h5f.create(name, h5f.ACC_EXCL, fapl=fapl, fcpl=fcpl)
     else:
@@ -312,6 +317,8 @@ class File(Group):
                    h5fd.fileobj_driver: 'fileobj'}
         if ros3:
             drivers[h5fd.ROS3D] = 'ros3'
+        if gds:
+            drivers[h5fd.GDSD] = 'gds'
         if direct_vfd:
             drivers[h5fd.DIRECT] = 'direct'
         return drivers.get(self.id.get_access_plist().get_driver(), 'unknown')
@@ -397,7 +404,8 @@ class File(Group):
             a        Read/write if exists, create otherwise
         driver
             Name of the driver to use.  Legal values are None (default,
-            recommended), 'core', 'sec2', 'direct', 'stdio', 'mpio', 'ros3'.
+            recommended), 'core', 'sec2', 'direct', 'stdio', 'mpio', 'ros3',
+            'gds'.
         libver
             Library version bounds.  Supported values: 'earliest', 'v108',
             'v110', 'v112'  and 'latest'.
