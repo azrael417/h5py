@@ -278,8 +278,6 @@ cdef class DatasetID(ObjectID):
         plist_id = pdefault(dxpl)
         data = PyArray_DATA(arr_obj)
 
-	print("write: data = ", hex(data))
-
         dset_rw(self_id, mtype_id, mspace_id, fspace_id, plist_id, data, 0)
 
 
