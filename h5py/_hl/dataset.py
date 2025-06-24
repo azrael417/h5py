@@ -1075,7 +1075,7 @@ class Dataset(HLObject):
 
         Broadcasting is supported for simple indexing.
         """
-        print("WE ARE INSIDE WRITE DIRECT\n")
+        print("WE ARE INSIDE WRITE DIRECT", flush=True)
         
         with phil:
             if self._is_empty:
@@ -1092,7 +1092,7 @@ class Dataset(HLObject):
                 dest_sel = sel.select(self.shape, dest_sel, self)
 
             for fspace in dest_sel.broadcast(source_sel.array_shape):
-                print("write_direct: writing ", source.shape, "\n")
+                print("write_direct: writing ", source.shape, flush=True)
                 self.id.write(mspace, fspace, source, dxpl=self._dxpl)
 
     @with_phil
