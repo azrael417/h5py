@@ -1075,8 +1075,6 @@ class Dataset(HLObject):
 
         Broadcasting is supported for simple indexing.
         """
-        print("WE ARE INSIDE WRITE DIRECT", flush=True)
-        
         with phil:
             if self._is_empty:
                 raise TypeError("Empty datasets cannot be written to")
@@ -1092,7 +1090,7 @@ class Dataset(HLObject):
                 dest_sel = sel.select(self.shape, dest_sel, self)
 
             for fspace in dest_sel.broadcast(source_sel.array_shape):
-                print("write_direct: writing ", source.shape, flush=True)
+                print(f"write_direct: writing = {hex(source.data)}", flush=True)
                 self.id.write(mspace, fspace, source, dxpl=self._dxpl)
 
     @with_phil
