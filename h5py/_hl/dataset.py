@@ -1075,6 +1075,8 @@ class Dataset(HLObject):
 
         Broadcasting is supported for simple indexing.
         """
+        print("WE ARE INSIDE WRITE DIRECT")
+        
         with phil:
             if self._is_empty:
                 raise TypeError("Empty datasets cannot be written to")
