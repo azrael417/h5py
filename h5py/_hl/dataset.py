@@ -1090,6 +1090,7 @@ class Dataset(HLObject):
                 dest_sel = sel.select(self.shape, dest_sel, self)
 
             for fspace in dest_sel.broadcast(source_sel.array_shape):
+                print("write_direct: writing ", source.shape)
                 self.id.write(mspace, fspace, source, dxpl=self._dxpl)
 
     @with_phil
