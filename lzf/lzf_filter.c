@@ -68,6 +68,19 @@ size_t lzf_filter(unsigned flags, size_t cd_nelmts,
 herr_t lzf_set_local(hid_t dcpl, hid_t type, hid_t space);
 
 #if H5PY_H5Z_NEWCLS
+#if H5Z_CLASS_T_VERS >= 3
+static const H5Z_class_t filter_class = {
+    H5Z_CLASS_T_VERS,
+    (H5Z_filter_t)(H5PY_FILTER_LZF),
+    1, 1,
+    "lzf",
+    NULL,
+    (H5Z_set_local_func_t)(lzf_set_local),
+    (H5Z_func_t)(lzf_filter),
+    NULL,
+    NULL
+};
+#else
 static const H5Z_class_t filter_class = {
     H5Z_CLASS_T_VERS,
     (H5Z_filter_t)(H5PY_FILTER_LZF),
@@ -77,6 +90,7 @@ static const H5Z_class_t filter_class = {
     (H5Z_set_local_func_t)(lzf_set_local),
     (H5Z_func_t)(lzf_filter)
 };
+#endif
 #else
 static const H5Z_class_t filter_class = {
     (H5Z_filter_t)(H5PY_FILTER_LZF),
