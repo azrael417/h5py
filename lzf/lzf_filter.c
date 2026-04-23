@@ -69,7 +69,10 @@ herr_t lzf_set_local(hid_t dcpl, hid_t type, hid_t space);
 
 #if H5PY_H5Z_NEWCLS
 #if H5Z_CLASS_T_VERS >= 3
-static const H5Z_class_t filter_class = {
+/* HDF5 2.2.0+ introduced H5Z_class3_t with initialize/terminate callbacks.
+   H5Zregister auto-detects the struct version from the version field,
+   so we must use the v3 struct type to match H5Z_CLASS_T_VERS=3. */
+static const H5Z_class3_t filter_class = {
     H5Z_CLASS_T_VERS,
     (H5Z_filter_t)(H5PY_FILTER_LZF),
     1, 1,
