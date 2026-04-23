@@ -80,6 +80,9 @@ if ros3:
 if direct_vfd:
     _drivers['direct'] = lambda plist, **kwargs: plist.set_fapl_direct(**kwargs)  # noqa
 
+# GDS (GPU Direct Storage) VFD plugin support
+_drivers['gds'] = lambda plist, **kwargs: plist.set_driver_by_name(b'gds')
+
 
 def register_driver(name, set_fapl):
     """Register a custom driver.

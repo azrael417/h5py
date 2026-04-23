@@ -1220,6 +1220,14 @@ cdef class PropFAID(PropInstanceID):
         """
         return H5Pset_driver(self.id, driver_id, NULL)
 
+    @with_phil
+    def set_driver_by_name(self, const char* driver_name, const char* driver_config=NULL):
+        """(BYTES driver_name, BYTES driver_config=None)
+
+        Sets the file driver by name (e.g. for VFD plugins).
+        Requires HDF5 >= 1.14.0.
+        """
+        return H5Pset_driver_by_name(self.id, driver_name, driver_config)
 
     @with_phil
     def set_fileobj_driver(self, hid_t driver_id, object fileobj):
